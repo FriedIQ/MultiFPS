@@ -1,77 +1,54 @@
-Initialize engine version: 4.3.2f1 (0517a5ae8669)
+Initialize engine version: 4.5.2f1 (9abb1b59b47c)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 9.0c [aticfx64.dll 8.17.10.1247]
-    Renderer: AMD Radeon HD 7800 Series
+    Renderer: AMD Radeon HD 5700 Series
     Vendor:   ATI
-    VRAM:     2030 MB (via DXGI)
+    VRAM:     989 MB (via DXGI)
     Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=1 INTZ=1 RAWZ=0 NULL=1 RESZ=1 SlowINTZ=1
 Begin MonoManager ReloadAssembly
-Platform assembly: D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
-Loading D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
-Platform assembly: D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\Photon3Unity3D.dll (this message is harmless)
-Loading D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
-- Completed reload, in  0.096 seconds
-desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+Platform assembly: E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\Photon3Unity3D.dll (this message is harmless)
+Loading E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
+- Completed reload, in  0.119 seconds
+desktop: 1920x1200 60Hz; virtual: 3840x1200 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-Platform assembly: D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: D:\Projects\Unity\Projects\MultiFPS\Builds\MultiFPS_Data\Managed\System.dll (this message is harmless)
+Platform assembly: E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: E:\Personal\GitHub\MultiFPS\MultiFPS\Builds\MultiFPS_Data\Managed\System.dll (this message is harmless)
 OnJoinedLobby
  
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
 OnPhotonRandonJoinFailed
  
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
 OnJoinedRoom
  
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-5.5
+NullReferenceException: Object reference not set to an instance of an object
+  at NetworkCharacter.OnPhotonSerializeView (.PhotonStream stream, .PhotonMessageInfo info) [0x00000] in <filename unknown>:0 
+  at (wrapper managed-to-native) System.Reflection.MonoMethod:InternalInvoke (object,object[],System.Exception&)
+  at System.Reflection.MonoMethod.Invoke (System.Object obj, BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x00000] in <filename unknown>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoMethod.Invoke (System.Object obj, BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x00000] in <filename unknown>:0 
+  at System.Reflection.MethodBase.Invoke (System.Object obj, System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at PhotonView.ExecuteOnSerialize (.PhotonStream pStream, .PhotonMessageInfo info) [0x00000] in <filename unknown>:0 
+  at NetworkingPeer.OnSerializeRead (ExitGames.Client.Photon.Hashtable data, .PhotonPlayer sender, Int32 networkTime, Int16 correctPrefix) [0x00000] in <filename unknown>:0 
+  at NetworkingPeer.OnEvent (ExitGames.Client.Photon.EventData photonEvent) [0x00000] in <filename unknown>:0 
+  at ExitGames.Client.Photon.PeerBase.DeserializeMessageAndCallback (System.Byte[] inBuff) [0x00000] in <filename unknown>:0 
+  at ExitGames.Client.Photon.EnetPeer.DispatchIncomingCommands () [0x00000] in <filename unknown>:0 
+  at ExitGames.Client.Photon.PhotonPeer.DispatchIncomingCommands () [0x00000] in <filename unknown>:0 
+  at PhotonHandler.Update () [0x00000] in <filename unknown>:0 
  
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-5.5
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-5.5
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-5.5
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-5.5
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-5.5
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-5.5
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-5.5
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-5.5
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-5.5
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
+(Filename:  Line: -1)
 

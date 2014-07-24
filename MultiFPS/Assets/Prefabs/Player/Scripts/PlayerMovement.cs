@@ -14,8 +14,9 @@ public class PlayerMovement : MonoBehaviour {
 	Vector3 direction = Vector3.zero;	// WASD forward/back, left/right direction stored in direction
 	float verticalVelocity = -0.01f;
 
-	float colliderFullHeight = 2.0f;
-	float colliderJumpHeight = 1.3f;
+	//for later consideration
+	//float colliderFullHeight = 2.0f;
+	//float colliderJumpHeight = 1.3f;
 
 	CharacterController controller;
 	Animator anim;
