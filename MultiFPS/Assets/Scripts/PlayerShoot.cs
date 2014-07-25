@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Linq;
 
+// ReSharper disable once CheckNamespace
 public class PlayerShoot : MonoBehaviour {
 
-	public float fireRate = 0.5f;
-	float coolDown = 0.0f;
-	float range = 550.0f;
-	float damage = 25.0f;
+	public float FireRate = 0.5f;
 
-	// Use this for initialization
+	float _coolDown;
+    private const float Range = 550.0f;
+    private const float Damage = 25.0f;
+
+    // Use this for initialization
+    // ReSharper disable once UnusedMember.Local
 	void Start () {
 	
 	}
 	
 	// Update is called once per frame
+    // ReSharper disable once UnusedMember.Local
 	void Update () {
-		coolDown -= Time.deltaTime;
+		_coolDown -= Time.deltaTime;
 
 		if( Input.GetButton( "Fire1" ) )
 		{
@@ -26,12 +29,12 @@ public class PlayerShoot : MonoBehaviour {
 
 	void Fire()
 	{
-		if(coolDown > 0)
+		if(_coolDown > 0)
 		{
 			return;
 		}
 
-		Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+		var ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
 		Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 20, Color.red);
 
@@ -40,19 +43,19 @@ public class PlayerShoot : MonoBehaviour {
 		if( GetClosestRaycastHit( ray, out hitInfo ) )
 		{
 			Debug.Log( "Hit: " + hitInfo.collider.name );
-			var transform = hitInfo.transform;
+			var trans = hitInfo.transform;
 
-			var target = transform.GetComponent<Destructable>();
-			while( target == null && transform.parent)
+			var target = trans.GetComponent<Destructable>();
+			while( target == null && trans.parent)
 			{
-				transform = transform.parent;
-				target = transform.GetComponent<Destructable>();
+				trans = trans.parent;
+				target = trans.GetComponent<Destructable>();
 			}
 
 			if(target != null)
 			{
 				//target.TakeDamage(damage);
-				target.GetComponent<PhotonView>().RPC( "TakeDamage", PhotonTargets.All, damage );
+				target.GetComponent<PhotonView>().RPC( "TakeDamage", PhotonTargets.All, Damage );
 			}
 		}
 		else
@@ -61,21 +64,19 @@ public class PlayerShoot : MonoBehaviour {
 		}
 
 
-		coolDown = fireRate;
+		_coolDown = FireRate;
 	}
 
 	bool GetClosestRaycastHit( Ray ray, out RaycastHit hitInfo )
 	{
-		RaycastHit[] hits = Physics.RaycastAll( ray, range );
-		if( hits.Count() == 0 )
+	    var hits = Physics.RaycastAll( ray, Range );
+	    if( hits.Count() == 0 )
 		{
 			hitInfo = new RaycastHit();
 			return false;
 		}
-		else
-		{
-			hitInfo = hits.Where(h => h.collider.name != "Local Player").OrderBy(h => h.distance).First();
-			return true;
-		}
+	    
+        hitInfo = hits.Where(h => h.collider.name != "Local Player").OrderBy(h => h.distance).First();
+	    return true;
 	}
 }

@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class NetworkManager : MonoBehaviour {
 
-	public bool offlineMode = false;
+	public bool OfflineMode = false;
 	//public Camera standByCamera;
 
 	// Use this for initialization
@@ -13,9 +12,9 @@ public class NetworkManager : MonoBehaviour {
 
 	void Connect()
 	{
-		if( offlineMode )
+		if( OfflineMode )
 		{
-			PhotonNetwork.offlineMode = offlineMode;
+			PhotonNetwork.offlineMode = OfflineMode;
 			OnJoinedLobby ();
 		}
 		else
@@ -38,15 +37,15 @@ public class NetworkManager : MonoBehaviour {
 
 	void OnJoinedRoom()
 	{
-		Debug.Log ( "OnJoinedRoom!" );
+		Debug.Log ( "OnJoinedRoom" );
 
 		SpawnPlayer();
 	}
 
 	void SpawnPlayer()
 	{
-		SpawnPoint spawnPoint = GameObject.FindObjectOfType<SpawnPoint>();
-		GameObject localPlayer = (GameObject)PhotonNetwork.Instantiate( "First Person Controller", spawnPoint.transform.position, spawnPoint.transform.rotation, 0 );
+		var spawnPoint = FindObjectOfType<SpawnPoint>();
+		var localPlayer = (GameObject)PhotonNetwork.Instantiate( "First Person Controller", spawnPoint.transform.position, spawnPoint.transform.rotation, 0 );
         localPlayer.name = "Local Player";
 
 		// Enable components on the local objects
