@@ -3,9 +3,10 @@ using System.Collections;
 
 public class NetworkCharacter : Photon.MonoBehaviour {
 
+    float lerpFactor = 8.0f;
+
 	Vector3 realPosition = Vector3.zero;
 	Quaternion realRotation = Quaternion.identity;
-	// float lastUpdateTime
 
 	Animator animator;
 
@@ -24,8 +25,8 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 		}
 		else
 		{
-			transform.position = Vector3.Lerp(transform.position, realPosition, 0.1f);
-			transform.rotation = Quaternion.Lerp(transform.rotation, realRotation, 0.1f);
+            transform.position = Vector3.Lerp(transform.position, realPosition, Time.deltaTime * lerpFactor);
+            transform.rotation = Quaternion.Lerp(transform.rotation, realRotation, Time.deltaTime * lerpFactor);
 		}
 	}
 

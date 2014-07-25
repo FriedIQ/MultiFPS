@@ -38,7 +38,7 @@ public class NetworkManager : MonoBehaviour {
 
 	void OnJoinedRoom()
 	{
-		Debug.Log ( "OnJoinedRoom" );
+		Debug.Log ( "OnJoinedRoom!" );
 
 		SpawnPlayer();
 	}
@@ -47,19 +47,18 @@ public class NetworkManager : MonoBehaviour {
 	{
 		SpawnPoint spawnPoint = GameObject.FindObjectOfType<SpawnPoint>();
 		GameObject localPlayer = (GameObject)PhotonNetwork.Instantiate( "First Person Controller", spawnPoint.transform.position, spawnPoint.transform.rotation, 0 );
+        localPlayer.name = "Local Player";
 
 		// Enable components on the local objects
 		localPlayer.GetComponent<PlayerMovement>().enabled = true;
 		localPlayer.GetComponent<PlayerShoot>().enabled = true;
 		localPlayer.GetComponent<MouseLook>().enabled = true;
-		//localPlayer.GetComponent<FPSInputController>().enabled = true;
 
 		// Enable the local camera
 		localPlayer.GetComponentInChildren<Camera>().enabled = true;
 		localPlayer.GetComponentInChildren<Camera>().GetComponent<AudioListener>().enabled = true;
 		((Behaviour)localPlayer.GetComponentInChildren<Camera>().GetComponent( "FlareLayer" )).enabled = true;
 		localPlayer.GetComponentInChildren<Camera>().GetComponent<GUILayer>().enabled = true;
-		//localPlayer.GetComponentInChildren<Camera>().GetComponent<MouseLook>().enabled = true;
 	}
 
 	void OnGUI()

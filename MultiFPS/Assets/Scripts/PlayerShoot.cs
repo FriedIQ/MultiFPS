@@ -74,7 +74,7 @@ public class PlayerShoot : MonoBehaviour {
 		}
 		else
 		{
-			hitInfo = hits.Where(h => h.collider.name != "First Person Controller(Clone)").OrderBy(h => h.distance).First();
+			hitInfo = hits.Where(h => h.collider.name != "Local Player").OrderBy(h => h.distance).First();
 			return true;
 		}
 	}
