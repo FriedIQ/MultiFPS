@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Linq;
 
+[RequireComponent(typeof(PhotonView))]
 // ReSharper disable once CheckNamespace
 public class PlayerShoot : MonoBehaviour {
 
@@ -55,7 +56,7 @@ public class PlayerShoot : MonoBehaviour {
 			if(target != null)
 			{
 				//target.TakeDamage(damage);
-				target.GetComponent<PhotonView>().RPC( "TakeDamage", PhotonTargets.All, Damage );
+				target.GetComponent<PhotonView>().RPC( "TakeDamage", PhotonTargets.AllBuffered, Damage );
 			}
 		}
 		else

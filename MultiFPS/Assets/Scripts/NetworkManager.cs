@@ -1,67 +1,135 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
+[RequireComponent(typeof(PhotonView))]
 public class NetworkManager : MonoBehaviour {
 
 	public bool OfflineMode = false;
-	//public Camera standByCamera;
+	public Camera MenuCamera;
+
+    private PhotonView photonView;
+    private List<string> chatMessages;
+    private int chatBufferSize = 5;
 
 	// Use this for initialization
 	void Start () {
-		Connect();
+        photonView = GetComponent<PhotonView>();
+        PhotonNetwork.player.name = PlayerPrefs.GetString( "PlayerName", "Unknown Player" );
+        chatMessages = new List<string>();
 	}
 
 	void Connect()
 	{
-		if( OfflineMode )
-		{
-			PhotonNetwork.offlineMode = OfflineMode;
-			OnJoinedLobby ();
-		}
-		else
-		{
-			PhotonNetwork.ConnectUsingSettings( "0.0.1" );
-		}
+		PhotonNetwork.ConnectUsingSettings( "0.0.1" );
 	}
+
+    void OnDestroy()
+    {
+        PlayerPrefs.SetString( "PlayerName", PhotonNetwork.player.name );
+    }
 
 	void OnJoinedLobby()
 	{
-		Debug.Log ( "OnJoinedLobby" );
+		//Debug.Log ( "OnJoinedLobby" );
 		PhotonNetwork.JoinRandomRoom(); 
 	}
 
 	void OnPhotonRandomJoinFailed()
 	{
-		Debug.Log ( "OnPhotonRandonJoinFailed" );
+		//Debug.Log ( "OnPhotonRandonJoinFailed" );
 		PhotonNetwork.CreateRoom( null );
 	}
 
 	void OnJoinedRoom()
 	{
-		Debug.Log ( "OnJoinedRoom" );
+		//Debug.Log ( "OnJoinedRoom" );
 
 		SpawnPlayer();
 	}
 
+    public void AddChatMessage(string text)
+    {
+        if (photonView != null)
+        {
+            photonView.RPC("AddChatMessageRpc", PhotonTargets.AllBuffered, text);
+        }
+        else
+        {
+            Debug.Log("photonView is null");
+        }
+    }
+
+    [RPC]
+    void AddChatMessageRpc(string text)
+    {
+        if (chatMessages.Count >= chatBufferSize)
+        {
+            chatMessages.RemoveAt(0);
+        }
+        chatMessages.Add(text);
+    }
+
 	void SpawnPlayer()
 	{
 		var spawnPoint = FindObjectOfType<SpawnPoint>();
-		var localPlayer = (GameObject)PhotonNetwork.Instantiate( "First Person Controller", spawnPoint.transform.position, spawnPoint.transform.rotation, 0 );
-        localPlayer.name = "Local Player";
+		var player = (GameObject)PhotonNetwork.Instantiate( "First Person Controller", spawnPoint.transform.position, spawnPoint.transform.rotation, 0 );
+        MenuCamera.gameObject.SetActive(false);
 
-		// Enable components on the local objects
-		localPlayer.GetComponent<PlayerMovement>().enabled = true;
-		localPlayer.GetComponent<PlayerShoot>().enabled = true;
-		localPlayer.GetComponent<MouseLook>().enabled = true;
-
-		// Enable the local camera
-		localPlayer.GetComponentInChildren<Camera>().enabled = true;
-		localPlayer.GetComponentInChildren<Camera>().GetComponent<AudioListener>().enabled = true;
-		((Behaviour)localPlayer.GetComponentInChildren<Camera>().GetComponent( "FlareLayer" )).enabled = true;
-		localPlayer.GetComponentInChildren<Camera>().GetComponent<GUILayer>().enabled = true;
+        AddChatMessage("Player " + PhotonNetwork.player.name + " has joined the game.");
 	}
 
 	void OnGUI()
 	{
+        GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
+        GUILayout.BeginVertical();
 		GUILayout.Label( PhotonNetwork.connectionState.ToString() );
+        GUILayout.Label("IsMasterClient: " + PhotonNetwork.isMasterClient.ToString());
+        GUILayout.FlexibleSpace();
+        GUILayout.EndVertical();
+        GUILayout.EndArea();
+
+        if (!PhotonNetwork.connected && !PhotonNetwork.connecting)
+        {
+            GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            GUILayout.BeginVertical();
+            GUILayout.FlexibleSpace();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Name:");
+            PhotonNetwork.player.name = GUILayout.TextField( PhotonNetwork.player.name );
+            GUILayout.EndHorizontal();
+
+            if (GUILayout.Button("Single Player"))
+            {
+                PhotonNetwork.offlineMode = true;
+                OnJoinedLobby();
+            }
+            if( GUILayout.Button( "Multi Player" ) )
+            {
+                Connect();
+            }
+            GUILayout.FlexibleSpace();
+            GUILayout.EndVertical();
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
+        }
+
+        if (PhotonNetwork.connected && !PhotonNetwork.connecting)
+        {
+            GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
+            GUILayout.BeginVertical();
+            GUILayout.FlexibleSpace();
+
+            foreach (var m in chatMessages)
+            {
+                GUILayout.Label(m);
+            }
+
+            GUILayout.EndVertical();
+            GUILayout.EndArea();
+        }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(PhotonView))]
 public class Destructable : MonoBehaviour {
 
 	public float structurePoints = 100f;
@@ -33,11 +34,12 @@ public class Destructable : MonoBehaviour {
 	{
         if (photonView.instantiationId == 0)
         {
+            Debug.Log("BeDestroyed() called from " + photonView.instantiationId);
             Destroy(gameObject);
         }
         else
         {
-            if (PhotonNetwork.isMasterClient)
+            if (photonView.isMine)
             {
                 Debug.Log("Called from Master: [" + photonView.instantiationId + "]");
                 PhotonNetwork.Destroy(gameObject);
