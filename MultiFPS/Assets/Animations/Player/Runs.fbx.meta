@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 7333bec06e04c4b6e9d78bd6e890dfb1
 ModelImporter:
-  serializedVersion: 15
+  serializedVersion: 16
   fileIDToRecycleName:
     100000: RightHandMiddle2
     100002: RightHandMiddle1
@@ -653,6 +653,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     optimizeGameObjects: 0
+    motionNodeName: 
     animationCompression: 0
     animationRotationError: .5
     animationPositionError: .5
@@ -1487,4 +1488,5 @@ ModelImporter:
   lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e194d39a231e29a489a36758f9fb175e,
     type: 3}
   animationType: 3
+  additionalBone: 0
   userData: 

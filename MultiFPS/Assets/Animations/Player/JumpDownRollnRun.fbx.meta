@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 4d82c5d5981b02243b3eda7b9567b1c1
 ModelImporter:
-  serializedVersion: 15
+  serializedVersion: 16
   fileIDToRecycleName:
     100000: //RootNode
     100002: Chest
@@ -486,6 +486,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     optimizeGameObjects: 0
+    motionNodeName: 
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
@@ -1767,4 +1768,5 @@ ModelImporter:
   lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e194d39a231e29a489a36758f9fb175e,
     type: 3}
   animationType: 3
+  additionalBone: 0
   userData: 
