@@ -46,7 +46,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\FXManager.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\CustomTypes.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Enums.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Extensions.cs" />
@@ -83,11 +82,13 @@
      <Compile Include="Assets\Photon Unity Networking\UtilityScripts\TimeKeeper.cs" />
      <Compile Include="Assets\Prefabs\Player\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\Destructable.cs" />
+     <Compile Include="Assets\Scripts\FXManager.cs" />
      <Compile Include="Assets\Scripts\NetworkCharacter.cs" />
      <Compile Include="Assets\Scripts\NetworkManager.cs" />
      <Compile Include="Assets\Scripts\PlayerShoot.cs" />
+     <Compile Include="Assets\Scripts\SelfDestruct.cs" />
      <Compile Include="Assets\Scripts\SpawnPoint.cs" />
-     <Compile Include="Assets\SelfDestruct.cs" />
+     <Compile Include="Assets\WeaponData.cs" />
      <None Include="Assets\Plugins\release_history.txt" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
      <None Include="Assets\Shaders\Effects\Weapons\SniperRifleBulletEffect.shader" />
@@ -99,10 +100,10 @@
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
      <None Include="Assets\Photon Unity Networking\changelog.txt" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>E:/Personal/GitHub/MultiFPS/MultiFPS/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>D:/Projects/Unity/GitHub/MultiFPS/MultiFPS/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="Photon3Unity3D">
- <HintPath>E:/Personal/GitHub/MultiFPS/MultiFPS/Assets/Plugins/Photon3Unity3D.dll</HintPath>
+ <HintPath>D:/Projects/Unity/GitHub/MultiFPS/MultiFPS/Assets/Plugins/Photon3Unity3D.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -5,14 +5,11 @@ using System.Linq;
 // ReSharper disable once CheckNamespace
 public class PlayerShoot : MonoBehaviour {
 
-	public float FireRate = 0.5f;
-
 	private float CoolDown;
-    private const float Range = 550.0f;
-    private const float Damage = 25.0f;
 
     FXManager fxManager;
     PhotonView photonView;
+    WeaponData weaponData;
 
     void Awake()
     {
@@ -32,7 +29,11 @@ public class PlayerShoot : MonoBehaviour {
     // Use this for initialization
     // ReSharper disable once UnusedMember.Local
 	void Start () {
-	    
+        weaponData = gameObject.GetComponentInChildren<WeaponData>();
+        if (weaponData == null)
+        {
+            Debug.Log("Unable to find WeaponData");
+        }
 	}
 	
 	// Update is called once per frame
@@ -61,7 +62,7 @@ public class PlayerShoot : MonoBehaviour {
 
 		if( GetClosestRaycastHit( ray, out hitInfo ) )
 		{
-			Debug.Log( "Hit: " + hitInfo.collider.name );
+			//Debug.Log( "Hit: " + hitInfo.collider.name );
 			var trans = hitInfo.transform;
 
 			var target = trans.GetComponent<Destructable>();
@@ -74,25 +75,25 @@ public class PlayerShoot : MonoBehaviour {
 			if(target != null)
 			{
 				//target.TakeDamage(damage);
-				target.GetComponent<PhotonView>().RPC( "TakeDamage", PhotonTargets.AllBuffered, Damage );
+                target.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllBuffered, weaponData.Damage);
 			}
 
-            DoWeaponEffect("SniperBulletEffect", Camera.main.transform.position, hitInfo.point);
+            DoWeaponEffect("SniperBulletEffect", weaponData.Muzzle.transform.position, hitInfo.point);
 		}
 		else
 		{
-			Debug.Log( "Hit Nothing" );
+			//Debug.Log( "Hit Nothing" );
 
-            Vector3 endPoint = Camera.main.transform.position + (Camera.main.transform.forward * Range);
-            DoWeaponEffect("SniperBulletEffect", Camera.main.transform.position, endPoint);
+            Vector3 endPoint = Camera.main.transform.position + (Camera.main.transform.forward * weaponData.Range);
+            DoWeaponEffect("SniperBulletEffect", weaponData.Muzzle.transform.position, endPoint);
 		}
 
-		CoolDown = FireRate;
+        CoolDown = weaponData.FireRate;
 	}
 
 	bool GetClosestRaycastHit( Ray ray, out RaycastHit hitInfo )
 	{
-	    var hits = Physics.RaycastAll( ray, Range );
+        var hits = Physics.RaycastAll(ray, weaponData.Range);
 	    if( hits.Count() == 0 )
 		{
 			hitInfo = new RaycastHit();

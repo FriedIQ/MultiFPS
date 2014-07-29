@@ -5,7 +5,6 @@ using System.Collections;
 public class NetworkCharacter : Photon.MonoBehaviour {
 
     private float lerpFactor = 8.0f;
-    private float fraction;
 
     private Vector3 realPosition = Vector3.zero;
     private Quaternion realRotation = Quaternion.identity;
@@ -55,7 +54,6 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 		}
 		else
 		{
-            // fraction = fraction + Time.deltaTime * lerpFactor;
             transform.position = Vector3.Lerp(transform.position, realPosition, Time.deltaTime * lerpFactor);
             transform.rotation = Quaternion.Lerp(transform.rotation, realRotation, Time.deltaTime * lerpFactor);
 		}
@@ -85,8 +83,6 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 
 			animator.SetFloat( "Speed", (float)stream.ReceiveNext() );
 			animator.SetBool( "Jumping", (bool)stream.ReceiveNext() );
-
-            fraction = 0.0f;
 
             if (spawning)
             {
