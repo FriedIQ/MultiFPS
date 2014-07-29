@@ -36,13 +36,15 @@ public class NetworkCharacter : Photon.MonoBehaviour {
             Debug.Log("Instantiating Remote Player: " + photonView.viewID + "[" + photonView.instantiationId + "]");
         }
 
+        animator = GetComponent<Animator>();
+
         Debug.Log("IsNonMasterClientInRoom: " + PhotonNetwork.isNonMasterClientInRoom);
     }
 
 	// Use this for initialization
 	void Start () 
 	{
-		animator = GetComponent<Animator>();
+
 	}
 	
 	// Update is called once per frame

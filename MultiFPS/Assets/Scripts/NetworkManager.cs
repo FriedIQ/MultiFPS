@@ -6,7 +6,8 @@ using UnityEngine;
 public class NetworkManager : MonoBehaviour {
 
 	public bool OfflineMode = false;
-	public Camera MenuCamera;
+	public GameObject MenuCamera;
+    public float RespawnTimer = 0;
 
     private PhotonView photonView;
     private List<string> chatMessages;
@@ -18,6 +19,20 @@ public class NetworkManager : MonoBehaviour {
         PhotonNetwork.player.name = PlayerPrefs.GetString( "PlayerName", "Unknown Player" );
         chatMessages = new List<string>();
 	}
+
+    void Update()
+    {
+        if (RespawnTimer > 0)
+        {
+            RespawnTimer -= Time.deltaTime;
+
+            if (RespawnTimer <= 0)
+            {
+                SpawnPlayer();
+                RespawnTimer = 0;
+            }
+        }
+    }
 
 	void Connect()
 	{
@@ -75,9 +90,8 @@ public class NetworkManager : MonoBehaviour {
 		var spawnPoints = FindObjectsOfType<SpawnPoint>();
 
 	    var point = UnityEngine.Random.Range(1, spawnPoints.Length);
+        MenuCamera.SetActive(false);
         PhotonNetwork.Instantiate("First Person Controller", spawnPoints[point].transform.position, spawnPoints[point].transform.rotation, 0);
-	    MenuCamera.gameObject.SetActive(false);
-
         AddChatMessage("Player " + PhotonNetwork.player.name + " has joined the game.");
 	}
 
