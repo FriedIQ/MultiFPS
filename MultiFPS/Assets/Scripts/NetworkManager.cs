@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PhotonView))]
@@ -71,9 +72,11 @@ public class NetworkManager : MonoBehaviour {
 
 	void SpawnPlayer()
 	{
-		var spawnPoint = FindObjectOfType<SpawnPoint>();
-		var player = (GameObject)PhotonNetwork.Instantiate( "First Person Controller", spawnPoint.transform.position, spawnPoint.transform.rotation, 0 );
-        MenuCamera.gameObject.SetActive(false);
+		var spawnPoints = FindObjectsOfType<SpawnPoint>();
+
+	    var point = UnityEngine.Random.Range(1, spawnPoints.Length);
+        PhotonNetwork.Instantiate("First Person Controller", spawnPoints[point].transform.position, spawnPoints[point].transform.rotation, 0);
+	    MenuCamera.gameObject.SetActive(false);
 
         AddChatMessage("Player " + PhotonNetwork.player.name + " has joined the game.");
 	}

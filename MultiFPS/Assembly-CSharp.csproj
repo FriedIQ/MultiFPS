@@ -88,7 +88,7 @@
      <Compile Include="Assets\Scripts\PlayerShoot.cs" />
      <Compile Include="Assets\Scripts\SelfDestruct.cs" />
      <Compile Include="Assets\Scripts\SpawnPoint.cs" />
-     <Compile Include="Assets\WeaponData.cs" />
+     <Compile Include="Assets\Scripts\WeaponData.cs" />
      <None Include="Assets\Plugins\release_history.txt" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
      <None Include="Assets\Shaders\Effects\Weapons\SniperRifleBulletEffect.shader" />
@@ -100,7 +100,7 @@
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
      <None Include="Assets\Photon Unity Networking\changelog.txt" />
  <Reference Include="Photon3Unity3D">
- <HintPath>D:/Projects/Unity/GitHub/MultiFPS/MultiFPS/Assets/Plugins/Photon3Unity3D.dll</HintPath>
+ <HintPath>E:/Personal/GitHub/MultiFPS/MultiFPS/Assets/Plugins/Photon3Unity3D.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
