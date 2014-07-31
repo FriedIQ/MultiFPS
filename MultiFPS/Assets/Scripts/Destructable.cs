@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(PhotonView))]
 public class Destructable : MonoBehaviour {
 
-	public float structurePoints = 100f;
+	public float StructurePoints = 100f;
 
-    PhotonView photonView;
-    float currentStructurePoints;
+    PhotonView _photonView;
+    float _currentStructurePoints;
 
 	// Use this for initialization
 	void Start () {
-        photonView = GetComponent<PhotonView>();
-		currentStructurePoints = structurePoints;
+        _photonView = GetComponent<PhotonView>();
+		_currentStructurePoints = StructurePoints;
 	}
 
     //void OnGUI()
@@ -29,32 +28,33 @@ public class Destructable : MonoBehaviour {
 	[RPC]
 	public void TakeDamage( float damage )
 	{
-		currentStructurePoints -= damage;
-		if( currentStructurePoints <= 0 )
-		{
-			BeDestroyed();
-		}
+		_currentStructurePoints -= damage;
+
+	    if (!(_currentStructurePoints <= 0)) return;
+
+	    BeDestroyed();
 	}
 
 	void BeDestroyed()
 	{
-        if (photonView.instantiationId == 0)
+        if (_photonView.instantiationId == 0)
         {
             //Debug.Log("BeDestroyed() called from " + photonView.instantiationId);
             Destroy(gameObject);
         }
         else
         {
-            if (photonView.isMine)
+            if (_photonView.isMine)
             {
                 //Debug.Log("Called from Master: [" + photonView.instantiationId + "]");
                 if (gameObject.tag == "Player")
                 {
-                    var networkManager = GameObject.FindObjectOfType<NetworkManager>();
+                    var networkManager = FindObjectOfType<NetworkManager>();
                     networkManager.MenuCamera.SetActive(true);
                     networkManager.RespawnTimer = 3.0f;
                     networkManager.GetComponent<PhotonView>().RPC("AddChatMessageRpc", PhotonTargets.AllBuffered, "Player " + PhotonNetwork.player.name + " has been destroyed!");
                 }
+
                 PhotonNetwork.Destroy(gameObject);
             }
         }

@@ -26,8 +26,8 @@ public class FXManager : MonoBehaviour
     void SniperBulletEffect(Vector3 startPos, Vector3 endPos)
     {
         // Vector3 offset = new Vector3(WeaponEffectOffsetX, WeaponEffectOffsetY, WeaponEffectOffsetZ);
-        GameObject effect = (GameObject)Instantiate(SniperShotPrefab, (startPos), Camera.main.transform.rotation);
-        LineRenderer lineRenderer = effect.transform.Find("BulletEffect").GetComponent<LineRenderer>();
+        var effect = (GameObject)Instantiate(SniperShotPrefab, (startPos), Camera.main.transform.rotation);
+        var lineRenderer = effect.transform.Find("BulletEffect").GetComponent<LineRenderer>();
         lineRenderer.SetPosition(0, (startPos));
         lineRenderer.SetPosition(1, endPos);
     }

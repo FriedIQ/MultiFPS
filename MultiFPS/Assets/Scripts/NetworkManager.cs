@@ -24,9 +24,11 @@ public class NetworkManager : MonoBehaviour
     private void Update()
     {
         if (!(RespawnTimer > 0)) return;
+
         RespawnTimer -= Time.deltaTime;
 
         if (!(RespawnTimer <= 0)) return;
+
         _teamChosen = false;
         RespawnTimer = 0;
     }
@@ -90,40 +92,40 @@ public class NetworkManager : MonoBehaviour
 
         var player = PhotonNetwork.Instantiate("First Person Controller", spawnPoints[point].transform.position,
             spawnPoints[point].transform.rotation, 0);
-        SetTeam(player, teamId);
+        player.GetComponent<PhotonView>().RPC("SetTeam", PhotonTargets.AllBufferedViaServer, teamId);
 
         AddChatMessage("Player " + PhotonNetwork.player.name + " has joined the game.");
     }
 
-    private static void SetTeam(GameObject player, int teamId)
-    {
-        if (player == null)
-        {
-            Debug.Log("Player is null");
-        }
+    //private static void SetTeam(GameObject player, int teamId)
+    //{
+    //    if (player == null)
+    //    {
+    //        Debug.Log("Player is null");
+    //    }
 
-        player.GetComponentInChildren<PlayerTeam>().TeamId = teamId;
-        var skin = player.transform.GetComponentInChildren<SkinnedMeshRenderer>();
+    //    player.GetComponentInChildren<PlayerTeam>().TeamId = teamId;
+    //    var skin = player.transform.GetComponentInChildren<SkinnedMeshRenderer>();
 
-        if (skin == null)
-        {
-            Debug.Log("SkinnedMeshRenderer not found");
-            return;
-        }
+    //    if (skin == null)
+    //    {
+    //        Debug.Log("SkinnedMeshRenderer not found");
+    //        return;
+    //    }
 
-        switch(teamId)
-        {
-        	case 1:
-                skin.material.color = Color.blue;
-                break;
-            case 2:
-                skin.material.color = Color.red;
-                break;
-            default:
-                skin.material.color = Color.white;
-                break;
-        }
-    }
+    //    switch(teamId)
+    //    {
+    //        case 1:
+    //            skin.material.color = Color.blue;
+    //            break;
+    //        case 2:
+    //            skin.material.color = Color.red;
+    //            break;
+    //        default:
+    //            skin.material.color = Color.white;
+    //            break;
+    //    }
+    //}
 
     private void OnGUI()
     {
@@ -217,6 +219,24 @@ public class NetworkManager : MonoBehaviour
                 GUILayout.EndHorizontal();
                 GUILayout.EndArea();
             }
+        }
+
+        // Display a countdown if the respawn timer is active
+        if (RespawnTimer > 0)
+        {
+            GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            GUILayout.BeginVertical();
+            GUILayout.FlexibleSpace();
+
+            GUILayout.Label( "Respawning in: " + Mathf.RoundToInt(RespawnTimer) + " seconds." );
+
+            GUILayout.FlexibleSpace();
+            GUILayout.EndVertical();
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
         }
     }
 }

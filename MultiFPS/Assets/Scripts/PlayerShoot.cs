@@ -1,36 +1,44 @@
-﻿using UnityEngine;
+﻿using System.ComponentModel;
+using UnityEngine;
 using System.Linq;
 
 [RequireComponent(typeof(PhotonView))]
 // ReSharper disable once CheckNamespace
 public class PlayerShoot : MonoBehaviour {
 
-	private float CoolDown;
+	private float _coolDown;
 
-    FXManager fxManager;
-    PhotonView photonView;
-    WeaponData weaponData;
+    FXManager _fxManager;
+    PhotonView _photonView;
+    WeaponData _weaponData;
+    private PlayerTeam _playerTeam;
 
     void Awake()
     {
-        photonView = GetComponent<PhotonView>();
-        if (photonView == null)
+        _photonView = GetComponent<PhotonView>();
+        if (_photonView == null)
         {
             Debug.Log("Unable to find PhotonView");
         }
 
-        fxManager = GameObject.FindObjectOfType<FXManager>();
-        if (fxManager == null)
+        _fxManager = FindObjectOfType<FXManager>();
+        if (_fxManager == null)
         {
             Debug.Log( "Unable to find FXManager" );
+        }
+
+        _playerTeam = GetComponent<PlayerTeam>();
+        if (_playerTeam == null)
+        {
+            Debug.Log("Unable to find PlayerTeam");
         }
     }
 
     // Use this for initialization
     // ReSharper disable once UnusedMember.Local
 	void Start () {
-        weaponData = gameObject.GetComponentInChildren<WeaponData>();
-        if (weaponData == null)
+        _weaponData = gameObject.GetComponentInChildren<WeaponData>();
+        if (_weaponData == null)
         {
             Debug.Log("Unable to find WeaponData");
         }
@@ -39,7 +47,7 @@ public class PlayerShoot : MonoBehaviour {
 	// Update is called once per frame
     // ReSharper disable once UnusedMember.Local
 	void Update () {
-		CoolDown -= Time.deltaTime;
+		_coolDown -= Time.deltaTime;
 
 		if( Input.GetButton( "Fire1" ) )
 		{
@@ -49,7 +57,7 @@ public class PlayerShoot : MonoBehaviour {
 
 	void Fire()
 	{
-		if(CoolDown > 0)
+		if(_coolDown > 0)
 		{
 			return;
 		}
@@ -58,7 +66,7 @@ public class PlayerShoot : MonoBehaviour {
 
 		Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * 20, Color.red);
 
-		RaycastHit hitInfo = new RaycastHit();
+		var hitInfo = new RaycastHit();
 
 		if( GetClosestRaycastHit( ray, out hitInfo ) )
 		{
@@ -74,26 +82,42 @@ public class PlayerShoot : MonoBehaviour {
 
 			if(target != null)
 			{
-				//target.TakeDamage(damage);
-                target.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllBuffered, weaponData.Damage);
+                var team = trans.GetComponent<PlayerTeam>();
+                while (team == null && trans.parent)
+                {
+                    trans = trans.parent;
+                    team = trans.GetComponent<PlayerTeam>();
+                }
+
+			    if (team != null && (team.TeamId == 0 || team.TeamId != _playerTeam.TeamId))
+			    {
+                    Debug.Log("Shot team " + team.TeamId + " object. You are team " + _playerTeam.TeamId);
+                    target.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllBuffered, _weaponData.Damage);
+			    }
+			    else
+			    {
+                    Debug.Log("PlayerTeam was NULL");
+                    target.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllBuffered, _weaponData.Damage);
+			    }
+                
 			}
 
-            DoWeaponEffect("SniperBulletEffect", weaponData.Muzzle.transform.position, hitInfo.point);
+            DoWeaponEffect("SniperBulletEffect", _weaponData.Muzzle.transform.position, hitInfo.point);
 		}
 		else
 		{
 			//Debug.Log( "Hit Nothing" );
 
-            Vector3 endPoint = Camera.main.transform.position + (Camera.main.transform.forward * weaponData.Range);
-            DoWeaponEffect("SniperBulletEffect", weaponData.Muzzle.transform.position, endPoint);
+            var endPoint = Camera.main.transform.position + (Camera.main.transform.forward * _weaponData.Range);
+            DoWeaponEffect("SniperBulletEffect", _weaponData.Muzzle.transform.position, endPoint);
 		}
 
-        CoolDown = weaponData.FireRate;
+        _coolDown = _weaponData.FireRate;
 	}
 
 	bool GetClosestRaycastHit( Ray ray, out RaycastHit hitInfo )
 	{
-        var hits = Physics.RaycastAll(ray, weaponData.Range);
+        var hits = Physics.RaycastAll(ray, _weaponData.Range);
 	    if( hits.Count() == 0 )
 		{
 			hitInfo = new RaycastHit();
@@ -106,6 +130,6 @@ public class PlayerShoot : MonoBehaviour {
 
     void DoWeaponEffect(string effect, Vector3 startPos, Vector3 endPos)
     {
-        fxManager.PhotonView.RPC(effect, PhotonTargets.All, startPos, endPos);
+        _fxManager.PhotonView.RPC(effect, PhotonTargets.All, startPos, endPos);
     }
 }
