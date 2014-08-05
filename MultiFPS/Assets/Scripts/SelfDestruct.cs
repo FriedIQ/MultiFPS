@@ -17,13 +17,16 @@ public class SelfDestruct : MonoBehaviour {
         if (SelfDestructTime <= 0)
         {
             PhotonView photonView = GetComponent<PhotonView>();
-            if (photonView != null && photonView.instantiationId != 0)
-            {
-                PhotonNetwork.Destroy(gameObject);
-            }
-            else
+            if (photonView == null)
             {
                 Destroy(gameObject);
+                return;
+            }
+
+            if (photonView.instantiationId != 0 && photonView.isMine)
+            {
+                Debug.Log("PhotonNetwork.Destroy called from " + photonView.instantiationId);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
 	}

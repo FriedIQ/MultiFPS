@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 using System.Collections;
 
 [RequireComponent(typeof(PhotonView))]
@@ -22,6 +23,21 @@ public class NetworkCharacter : Photon.MonoBehaviour
             GetComponent<PlayerMovement>().enabled = true;
             GetComponent<PlayerShoot>().enabled = true;
             GetComponent<MouseLook>().enabled = true;
+
+            // Disable the renderer
+            // GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+
+            foreach (var renderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                renderer.enabled = false;
+            }
+
+            foreach (var renderer in GetComponentsInChildren<MeshRenderer>())
+            {
+                renderer.enabled = false;
+            }
+
+            // GetComponentsInChildren<SkinnedMeshRenderer>().Where(s => s.transform.name == "AssaultRifle").First().enabled = false;
 
             // Enable the local camera
             GetComponentInChildren<Camera>().enabled = true;

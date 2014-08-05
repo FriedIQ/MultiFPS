@@ -39,7 +39,7 @@ public class Destructable : MonoBehaviour {
 	{
         if (_photonView.instantiationId == 0)
         {
-            //Debug.Log("BeDestroyed() called from " + photonView.instantiationId);
+            Debug.Log("BeDestroyed() called from " + _photonView.instantiationId);
             Destroy(gameObject);
         }
         else
@@ -55,6 +55,7 @@ public class Destructable : MonoBehaviour {
                     networkManager.GetComponent<PhotonView>().RPC("AddChatMessageRpc", PhotonTargets.AllBuffered, "Player " + PhotonNetwork.player.name + " has been destroyed!");
                 }
 
+                Debug.Log("BeDestroyed() called from " + _photonView.instantiationId);
                 PhotonNetwork.Destroy(gameObject);
             }
         }

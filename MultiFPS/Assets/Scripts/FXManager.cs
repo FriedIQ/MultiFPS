@@ -6,10 +6,8 @@ public class FXManager : MonoBehaviour
 {
 
     public PhotonView PhotonView;
-    public GameObject SniperShotPrefab;
-    public float WeaponEffectOffsetX = 0f;
-    public float WeaponEffectOffsetY = 0f;
-    public float WeaponEffectOffsetZ = 0f;
+    public GameObject MuzzleEffectPrefab;
+    public GameObject BulletHolePrefab;
 
 	// Use this for initialization
     void Start()
@@ -23,12 +21,29 @@ public class FXManager : MonoBehaviour
     //}
 
     [RPC]
-    void SniperBulletEffect(Vector3 startPos, Vector3 endPos)
+    void AssaultRifleMuzzleEffect(Vector3 startPos, Vector3 endPos)
     {
-        // Vector3 offset = new Vector3(WeaponEffectOffsetX, WeaponEffectOffsetY, WeaponEffectOffsetZ);
-        var effect = (GameObject)Instantiate(SniperShotPrefab, (startPos), Camera.main.transform.rotation);
+        if (MuzzleEffectPrefab == null)
+        {
+            Debug.Log("MuzzleEffectPrefab was NULL");
+            return;
+        }
+
+        var effect = (GameObject)Instantiate(MuzzleEffectPrefab, (startPos), Camera.main.transform.rotation);
         var lineRenderer = effect.transform.Find("BulletEffect").GetComponent<LineRenderer>();
         lineRenderer.SetPosition(0, (startPos));
         lineRenderer.SetPosition(1, endPos);
+    }
+
+    [RPC]
+    void AussaultRifleHitEffect(Vector3 startPos, Vector3 normal)
+    {
+        if (BulletHolePrefab == null)
+        {
+            Debug.Log("BulletHolePrefab was NULL");
+            return;
+        }
+
+        Instantiate(BulletHolePrefab, (startPos), Quaternion.FromToRotation(Vector3.up, normal));
     }
 }

@@ -11,7 +11,6 @@ public class NetworkManager : MonoBehaviour
     private PhotonView _photonView;
     private List<string> _chatMessages;
     private const int ChatBufferSize = 5;
-    private bool _teamChosen;
 
     // Use this for initialization
     private void Start()
@@ -29,7 +28,6 @@ public class NetworkManager : MonoBehaviour
 
         if (!(RespawnTimer <= 0)) return;
 
-        _teamChosen = false;
         RespawnTimer = 0;
     }
 
@@ -55,10 +53,11 @@ public class NetworkManager : MonoBehaviour
         PhotonNetwork.CreateRoom(null);
     }
 
-    //private void OnJoinedRoom()
-    //{
-    //    Debug.Log ( "OnJoinedRoom" );
-    //}
+    private void OnJoinedRoom()
+    {
+        Debug.Log ( "OnJoinedRoom" );
+        SpawnPlayer();
+    }
 
     public void AddChatMessage(string text)
     {
@@ -82,50 +81,20 @@ public class NetworkManager : MonoBehaviour
         _chatMessages.Add(text);
     }
 
-    private void SpawnPlayer(int teamId)
+    private void SpawnPlayer()
     {
-        _teamChosen = true;
         var spawnPoints = FindObjectsOfType<SpawnPoint>();
 
         var point = Random.Range(1, spawnPoints.Length);
         MenuCamera.SetActive(false);
 
-        var player = PhotonNetwork.Instantiate("First Person Controller", spawnPoints[point].transform.position,
+        PhotonNetwork.Instantiate("First Person Controller", spawnPoints[point].transform.position,
             spawnPoints[point].transform.rotation, 0);
-        player.GetComponent<PhotonView>().RPC("SetTeam", PhotonTargets.AllBufferedViaServer, teamId);
 
         AddChatMessage("Player " + PhotonNetwork.player.name + " has joined the game.");
+
+        Screen.lockCursor = true;
     }
-
-    //private static void SetTeam(GameObject player, int teamId)
-    //{
-    //    if (player == null)
-    //    {
-    //        Debug.Log("Player is null");
-    //    }
-
-    //    player.GetComponentInChildren<PlayerTeam>().TeamId = teamId;
-    //    var skin = player.transform.GetComponentInChildren<SkinnedMeshRenderer>();
-
-    //    if (skin == null)
-    //    {
-    //        Debug.Log("SkinnedMeshRenderer not found");
-    //        return;
-    //    }
-
-    //    switch(teamId)
-    //    {
-    //        case 1:
-    //            skin.material.color = Color.blue;
-    //            break;
-    //        case 2:
-    //            skin.material.color = Color.red;
-    //            break;
-    //        default:
-    //            skin.material.color = Color.white;
-    //            break;
-    //    }
-    //}
 
     private void OnGUI()
     {
@@ -170,8 +139,7 @@ public class NetworkManager : MonoBehaviour
         // We are FULLY connected.
         if (PhotonNetwork.connected && !PhotonNetwork.connecting)
         {
-            if (_teamChosen)
-            {
+
                 GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
                 GUILayout.BeginVertical();
                 GUILayout.FlexibleSpace();
@@ -183,47 +151,13 @@ public class NetworkManager : MonoBehaviour
 
                 GUILayout.EndVertical();
                 GUILayout.EndArea();
-            }
-            else
-            {
-                GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
-                GUILayout.BeginHorizontal();
-                GUILayout.FlexibleSpace();
-                GUILayout.BeginVertical();
-                GUILayout.FlexibleSpace();
-
-                GUILayout.Label("Select a Team:");
-                if (GUILayout.Button("Blue"))
-                {
-                    SpawnPlayer(1);
-                }
-                if (GUILayout.Button("Red"))
-                {
-                    SpawnPlayer(2);
-                }
-
-                if (GUILayout.Button("Random"))
-                {
-                    var teamId = Random.Range(0, 2);
-                    SpawnPlayer(teamId);
-
-                    if (GUILayout.Button("Renegade"))
-                    {
-                        SpawnPlayer(0);
-                    }
-                }
-
-                GUILayout.FlexibleSpace();
-                GUILayout.EndVertical();
-                GUILayout.FlexibleSpace();
-                GUILayout.EndHorizontal();
-                GUILayout.EndArea();
-            }
         }
 
         // Display a countdown if the respawn timer is active
         if (RespawnTimer > 0)
         {
+            Screen.lockCursor = false;
+            
             GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();

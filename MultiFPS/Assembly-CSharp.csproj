@@ -80,16 +80,18 @@
      <Compile Include="Assets\Photon Unity Networking\UtilityScripts\SmoothSyncMovement.cs" />
      <Compile Include="Assets\Photon Unity Networking\UtilityScripts\TestDontDestroyOnLoad.cs" />
      <Compile Include="Assets\Photon Unity Networking\UtilityScripts\TimeKeeper.cs" />
-     <Compile Include="Assets\Prefabs\Player\Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\Bullet.cs" />
      <Compile Include="Assets\Scripts\Destructable.cs" />
      <Compile Include="Assets\Scripts\FXManager.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\NetworkCharacter.cs" />
      <Compile Include="Assets\Scripts\NetworkManager.cs" />
+     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\PlayerShoot.cs" />
-     <Compile Include="Assets\Scripts\PlayerTeam.cs" />
      <Compile Include="Assets\Scripts\SelfDestruct.cs" />
      <Compile Include="Assets\Scripts\SpawnPoint.cs" />
      <Compile Include="Assets\Scripts\WeaponData.cs" />
+     <None Include="Assets\Models\DestroyedCity\Destroyed_city_FREE_Info.txt" />
      <None Include="Assets\Plugins\release_history.txt" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
      <None Include="Assets\Shaders\Effects\Weapons\SniperRifleBulletEffect.shader" />
@@ -99,9 +101,10 @@
      <None Include="Assets\Plugins\Photon3Unity3D.xml" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
+     <None Include="Assets\Models\DestroyedCity\Shaders\AlphaTest-DiffuseDoubleSide.shader" />
      <None Include="Assets\Photon Unity Networking\changelog.txt" />
  <Reference Include="Photon3Unity3D">
- <HintPath>E:/Personal/GitHub/MultiFPS/MultiFPS/Assets/Plugins/Photon3Unity3D.dll</HintPath>
+ <HintPath>D:/Projects/Unity/GitHub/MultiFPS/MultiFPS/Assets/Plugins/Photon3Unity3D.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
