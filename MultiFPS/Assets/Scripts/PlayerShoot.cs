@@ -69,11 +69,11 @@ public class PlayerShoot : MonoBehaviour {
 
         DoWeaponEffect("AssaultRifleMuzzleEffect", _weaponData.Muzzle.transform.position, endPoint);
 
-        var direction = (endPoint - _weaponData.Muzzle.transform.position).normalized;
+		var direction = (endPoint - _weaponData.Muzzle.transform.position).normalized;
         var lookRotation = Quaternion.LookRotation(direction);
-        var bullet = PhotonNetwork.Instantiate("Bullet", _weaponData.Muzzle.transform.position, lookRotation, 0); //_weaponData.Muzzle.transform.position
+		var bullet = PhotonNetwork.Instantiate("Bullet", Camera.main.transform.position + (Camera.main.transform.forward * 2), Camera.main.transform.rotation, 0); //_weaponData.Muzzle.transform.position
 
-        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 10000);
+        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 20000);
 
         _coolDown = _weaponData.FireRate;
 	}

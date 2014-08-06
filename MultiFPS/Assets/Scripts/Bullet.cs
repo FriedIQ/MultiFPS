@@ -46,8 +46,13 @@ public class Bullet : Photon.MonoBehaviour
 
         DoBulletEffect(contact.point, contact.normal);
 
-        // Debug.Log("Hit " + contact.otherCollider.name + "(" + contact.point.x + ", " + contact.point.y + ", " + contact.point.z + ")");
+        Debug.Log("Hit " + contact.otherCollider.name + "(" + contact.point.x + ", " + contact.point.y + ", " + contact.point.z + ")");
     }
+
+	void OnTriggerEnter(Collider other)
+	{
+		Debug.Log("Hit " + other.name);
+	}
 
     void DoBulletEffect(Vector3 hit, Vector3 normal)
     {
