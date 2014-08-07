@@ -65,15 +65,26 @@ public class PlayerShoot : MonoBehaviour {
         if (GetClosestRaycastHit(ray, out hitInfo))
         {
             endPoint = hitInfo.point;
-		}
+
+            DoBulletEffect("AussaultRifleHitEffect", hitInfo.point, hitInfo.normal);
+        }
+        else
+        {
+            Debug.Log("Hit Nothing");
+        }
 
         DoWeaponEffect("AssaultRifleMuzzleEffect", _weaponData.Muzzle.transform.position, endPoint);
 
-		var direction = (endPoint - _weaponData.Muzzle.transform.position).normalized;
-        var lookRotation = Quaternion.LookRotation(direction);
-		var bullet = PhotonNetwork.Instantiate("Bullet", Camera.main.transform.position + (Camera.main.transform.forward * 2), Camera.main.transform.rotation, 0); //_weaponData.Muzzle.transform.position
 
-        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 20000);
+        Debug.Log("(" + hitInfo.point.x + ", " + hitInfo.point.y + ", " + hitInfo.point.z + ")");
+        // Debug.Log("Hit: " + hitInfo.collider.transform.name);
+
+
+        //var direction = (endPoint - _weaponData.Muzzle.transform.position).normalized;
+        //var lookRotation = Quaternion.LookRotation(direction);
+        //var bullet = PhotonNetwork.Instantiate("Bullet", Camera.main.transform.position + (Camera.main.transform.forward * 2), Camera.main.transform.rotation, 0); //_weaponData.Muzzle.transform.position
+
+        //bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 20000);
 
         _coolDown = _weaponData.FireRate;
 	}
@@ -96,8 +107,8 @@ public class PlayerShoot : MonoBehaviour {
         _fxManager.PhotonView.RPC(effect, PhotonTargets.All, startPos, endPos);
     }
 
-    void DoBulletEffect(Vector3 hit, Vector3 normal)
+    void DoBulletEffect(string effect, Vector3 hit, Vector3 normal)
     {
-        _fxManager.PhotonView.RPC("AussaultRifleHitEffect", PhotonTargets.All, hit, normal);
+        _fxManager.PhotonView.RPC(effect, PhotonTargets.All, hit, normal);
     }
 }
